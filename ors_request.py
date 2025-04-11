@@ -24,6 +24,12 @@ def fetch_rute_info():
     try:
         segment = data['features'][0]['properties']['segments'][0]
         coords = data['features'][0]['geometry']['coordinates']
+        steps = segment.get('steps', [])
+        jalan = []
+        for step in steps:
+            name = step.get('name')
+            if name and name != '-' and name not in jalan:
+                jalan.append(name)
     except (IndexError, KeyError) as e:
         raise RuntimeError(f"❌ Error parsing route data: {e}\nFull response:\n{data}")
 
@@ -32,11 +38,7 @@ def fetch_rute_info():
         'duration_min': [segment['duration'] / 60]
     })
 
-    # ✅ Pastikan folder output ada
-    output_dir = "rute_pipeline/output"
-    os.makedirs(output_dir, exist_ok=True)
+    os.makedirs("rute_pipeline/output", exist_ok=True)
+    df.to_csv("rute_pipeline/output/rute.csv", index=False)
 
-    # ✅ Simpan CSV ke folder yang sudah dipastikan ada
-    df.to_csv(os.path.join(output_dir, "rute.csv"), index=False)
-
-    return coords
+    return coords, jalan
