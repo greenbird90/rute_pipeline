@@ -1,14 +1,14 @@
-
 name: Rute Harian ETL
 
 on:
   schedule:
-    - cron: '30 23 * * *'
+    - cron: '30 23 * * *'  # Jalan setiap hari jam 23:30 UTC (06:30 WIB)
   workflow_dispatch:
 
 jobs:
   etl_rute:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -21,9 +21,8 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-
-      - name: Setup credentials.json
-        run: echo "${{ secrets.GOOGLE_CREDENTIALS_JSON }}" > credentials.json
+      - name: Decode GOOGLE_CREDS_BASE64 to credentials.json
+        run: echo "${{ secrets.GOOGLE_CREDS_BASE64 }}" | base64 -d > credentials.json
 
       - name: Run main.py
         env:
