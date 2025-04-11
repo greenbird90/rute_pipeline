@@ -30,4 +30,5 @@ jobs:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
           SHEET_NAME: ${{ secrets.SHEET_NAME }}
+          ORS_API_KEY: ${{ secrets.ORS_API_KEY }}
         run: python main.py
