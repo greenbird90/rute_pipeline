@@ -4,7 +4,7 @@ import os
 from ors_config import API_KEY, COORDINATES
 
 def fetch_rute_info():
-    url = "https://api.openrouteservice.org/v2/directions/driving-car"
+    url = "https://api.openrouteservice.org/v2/directions/driving-car/geojson"
     headers = {
         "Authorization": API_KEY,
         "Content-Type": "application/json"
