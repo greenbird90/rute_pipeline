@@ -31,6 +31,12 @@ def fetch_rute_info():
         'distance_km': [segment['distance'] / 1000],
         'duration_min': [segment['duration'] / 60]
     })
-    df.to_csv("rute_pipeline/output/rute.csv", index=False)
+
+    # ✅ Pastikan folder output ada
+    output_dir = "rute_pipeline/output"
+    os.makedirs(output_dir, exist_ok=True)
+
+    # ✅ Simpan CSV ke folder yang sudah dipastikan ada
+    df.to_csv(os.path.join(output_dir, "rute.csv"), index=False)
 
     return coords
