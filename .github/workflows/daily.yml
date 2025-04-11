@@ -1,0 +1,32 @@
+
+name: Rute Harian ETL
+
+on:
+  schedule:
+    - cron: '30 23 * * *'
+  workflow_dispatch:
+
+jobs:
+  etl_rute:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install -r rute_pipeline/requirements.txt
+
+      - name: Setup credentials.json
+        run: echo "${{ secrets.GOOGLE_CREDENTIALS_JSON }}" > credentials.json
+
+      - name: Run main.py
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+          SHEET_NAME: ${{ secrets.SHEET_NAME }}
+        run: python rute_pipeline/main.py

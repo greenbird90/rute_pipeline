@@ -1,0 +1,6 @@
+
+requests
+pandas
+folium
+gspread
+oauth2client
